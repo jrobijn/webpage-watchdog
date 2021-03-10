@@ -19,8 +19,8 @@ def load_config(path='config.txt'):
     return monitor['url'], monitor['xpath'], int(monitor['interval'])
 
 
-def send_telegram(bot, msg):
-    bot.send_message(1623987917, msg)
+def send_telegram(bot, chat_id, msg):
+    bot.send_message(chat_id, msg)
 
 
 def monitor_webpage_section(url, xpath, interval, alert_func):
@@ -52,8 +52,9 @@ if __name__ == '__main__':
 
     dotenv.load_dotenv()
     bot = telebot.TeleBot(os.getenv('BOT_TOKEN'))
+    chat_id = int(os.getenv('CHAT_ID'))
 
     # Telegram doesn't support message titles
-    alert_func = lambda title, message: send_telegram(bot, message)
+    alert_func = lambda title, message: send_telegram(bot, chat_id, message)
 
     monitor_webpage_section(url, xpath, interval, alert_func)
