@@ -19,10 +19,6 @@ def load_config(path='config.txt'):
     return monitor['url'], monitor['xpath'], int(monitor['interval'])
 
 
-def send_telegram(bot, chat_id, msg):
-    bot.send_message(chat_id, msg)
-
-
 def monitor_webpage_section(url, xpath, interval, alert_func):
     print(f'Setting up webpage monitor with a {interval}-second interval.\nURL: {url}\nXPath: {xpath}\n---')
     current_md5 = None
@@ -55,6 +51,6 @@ if __name__ == '__main__':
     chat_id = int(os.getenv('CHAT_ID'))
 
     # Telegram doesn't support message titles
-    alert_func = lambda title, message: send_telegram(bot, chat_id, message)
+    alert_func = lambda title, message: bot.send_message(chat_id, message)
 
     monitor_webpage_section(url, xpath, interval, alert_func)
